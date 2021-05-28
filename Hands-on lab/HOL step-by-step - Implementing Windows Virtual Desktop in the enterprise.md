@@ -81,7 +81,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 ## Abstract and learning objectives
 
-In this hands-on lab, you will implement a Windows Virtual Desktop Infrastructure and learn how-to setup a working WVD environment end-to-end in a typical Enterprise model. At the end of the lab, attendees will have deployed an Azure Active Directory Tenant with Azure AD Connect to an Active Directory Domain Controller that is running in Azure. You will also deploy the Azure infrastructure for the Windows Virtual Desktop Tenant(s), Host Pool(s) and session host(s), and connect to a WVD session utilizing different supported devices and browsers. You will publish Windows Virtual Desktops and remote apps, and configure user profiles and file shares with FSLogix.  Finally, you will configure monitoring and security for the Windows Virtual Desktop infrastructure and understand the steps to manage the master images.
+In this hands-on lab, you will implement a Windows Virtual Desktop Infrastructure and learn how-to setup a working WVD environment end-to-end in a typical Enterprise model. At the end of the lab, attendees will have deployed an Azure Active Directory Tenant with Azure AD Connect to an Active Directory Domain Controller that is running in Azure. You will also deploy the Azure infrastructure for the Windows Virtual Desktop Tenant(s), Host Pool(s) and session host(s), and connect to a WVD session utilizing different supported devices and browsers. You will publish Windows Virtual Desktops and remote apps, and configure user profiles and file shares with FSLogix.  Finally, you will configure monitoring and security for the Windows Virtual Desktop infrastructure and understand the steps to manage the gold images.
 
 ## Overview
 
@@ -830,11 +830,11 @@ In this task we will create directories for each of the FSLogix profile types an
 
 Your Azure Files Share is now ready for FSLogix profile containers. Copy the UNC path and add it to your FSLogix deployment (image, GPO, etc..).
 
-## Exercise 4: Create a master image for WVD
+## Exercise 4: Create a gold image for WVD
 
 Duration:  90 minutes
 
-In this exercise we are going to walk through the process of creating a master image for your WVD host pools. The basic concept for a master image is to start with a clean base install of Windows and layer on mandatory updates, applications and configurations. There are many ways to create and manage images for WVD. The steps covered in this exercise are going to walk you through a basic build and capture process that includes core applications and recommended configuration options for WVD.
+In this exercise we are going to walk through the process of creating a gold image for your WVD host pools. The basic concept for a gold image is to start with a clean base install of Windows and layer on mandatory updates, applications and configurations. There are many ways to create and manage images for WVD. The steps covered in this exercise are going to walk you through a basic build and capture process that includes core applications and recommended configuration options for WVD.
 
 **Additional Resources**
 
@@ -880,9 +880,9 @@ For more information on how to setup a Bastion host in Azure|https://docs.micros
 
 ### Task 2: Run Windows Update
 
-Despite the Azure support teams best efforts, the Marketplace images are not always up to date. The best and most secure practice is to keep your master image up to date.
+Despite the Azure support teams best efforts, the Marketplace images are not always up to date. The best and most secure practice is to keep your gold image up to date.
 
-1.  From your master image VM, open the **Settings** app and select **Updates & Security**.
+1.  From your gold image VM, open the **Settings** app and select **Updates & Security**.
 
     ![On the new Windows 10 VM image, go to settings window and select update and security.](images/w10VMSettings.png "The settings window within the Windows 10 VM")
 
@@ -896,7 +896,7 @@ Despite the Azure support teams best efforts, the Marketplace images are not alw
 
 **Introduction to the script**
 
-The authors for this content have developed a scripted solution to assist in automating some common baseline image build tasks. The script includes a UI form, enabling you to quickly select which actions to perform. The end result will be a custom master image that incorporates Microsoft's main business applications, along with the necessary
+The authors for this content have developed a scripted solution to assist in automating some common baseline image build tasks. The script includes a UI form, enabling you to quickly select which actions to perform. The end result will be a custom gold image that incorporates Microsoft's main business applications, along with the necessary
 policies and settings for an optimized user experience.
 
 The script and related tools are maintained in GitHub - [Download Link](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/shawntmeyer/WVD/tree/master/Image-Build/Customizations) 
@@ -969,9 +969,9 @@ The UI form offers the following actions:
 
     ![You will open Microsoft Edge and paste the above link into the browser to download the file.](images/savecustomizations.png)
 
-2.  **Save** the .zip file on your local workstation. Open the RDP window to your master image VM. **Save as** the .zip file to the documents folder.
+2.  **Save** the .zip file on your local workstation. Open the RDP window to your gold image VM. **Save as** the .zip file to the documents folder.
 
-3.  On the master image VM, right-click on the .zip file on your desktop and select **Extract All\...**.
+3.  On the gold image VM, right-click on the .zip file on your desktop and select **Extract All\...**.
 
     ![After the file downloads, select the customizations document and extract the files to documents.](images/extractcustomizations.png)
 
@@ -1082,7 +1082,7 @@ This will trigger the PowerShell form to launch. Select the appropriate options 
 
 The system will automatically shut down and disconnect your RDP session.
 
-### Task 5: Create a managed image from the Master Image VM
+### Task 5: Create a managed image from the Gold Image VM
 
 1.  Sign in to the [Azure Portal](https://portal.azure.com/).
 
@@ -1090,7 +1090,7 @@ The system will automatically shut down and disconnect your RDP session.
 
     ![From the Azure portal search bar, search for virtual machines and select the service.](images/searchvm.png "Search Virtual Machines")
 
-3.  On the Virtual machines blade, locate the VM you used for your master image and **Select** on the name.
+3.  On the Virtual machines blade, locate the VM you used for your gold image and **Select** on the name.
 
 4.  On the Overview blade for your VM, confirm the **Status** shows **Stopped**. Select **Stop** in the menu bar to move it to a deallocated state.
 
